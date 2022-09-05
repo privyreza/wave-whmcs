@@ -6,6 +6,7 @@ use Exception;
 use GuzzleHttp\Client;
 use WHMCS\Module\Addon\Wave\GraphQL\Mutation;
 use WHMCS\Module\Addon\Wave\GraphQL\Query;
+use WHMCS\Module\Addon\Wave\ResponseBuilder;
 
 /**
  * Class WaveApp.

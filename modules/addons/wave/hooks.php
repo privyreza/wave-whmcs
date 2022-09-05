@@ -34,8 +34,16 @@ use WHMCS\Module\Addon\Wave\Client\Controller;
 add_hook('ClientAdd', 1, function(array $params) {
     // Create client in Wave
     try {
-        $c = new Controller();
-        $waveapp = new WaveApp(null, 'https://gql.waveapps.com/graphql/public', '75ycGuRotBichVoYG2RWps2lKIwyie', 'QnVzaW5lc3M6MmNlOWU5MzEtOTAyMi00NGYzLThlZTctOWIzNGM4MjY1ODU5');
+        $businessId = $params['Business Id'];
+        $accessToken = $params['Access Token'];
+
+        $waveapp = new WaveApp(
+            null, 
+            'https://gql.waveapps.com/graphql/public', 
+            $accessToken,
+            $businessId
+        );
+        
         $customer = [
             "input" => [
                 "businessId" => "QnVzaW5lc3M6MmNlOWU5MzEtOTAyMi00NGYzLThlZTctOWIzNGM4MjY1ODU5",
@@ -58,20 +66,6 @@ add_hook('ClientAdd', 1, function(array $params) {
                     "postalCode" => "82271",
                     "countryCode" => "EC",
                ],
-               "shippingDetails" => [
-                    "name" => "Genevieve",
-                    "phone" => "011 8795",
-                    "instructions" => [
-                        "Delectus deleniti accusamus rerum voluptatem tempora.",
-                    ],
-                    "address" => [
-                        "addressLine1" => "167 Iva Run",
-                        "addressLine2" => "Parker Mews, Monahanstad, 40778-7100",
-                        "city" => "West Tyrique",
-                        "postalCode" => "82271",
-                        "countryCode" => "EC",
-                    ],
-                ],
             ],
         ];
 

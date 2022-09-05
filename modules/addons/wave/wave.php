@@ -71,7 +71,7 @@ function wave_config()
         'version' => '1.0',
         'fields' => [
             // a text field type allows for single line text input
-            'Text Field Name' => [
+            'Business Id' => [
                 'FriendlyName' => 'Business Id',
                 'Type' => 'text',
                 'Size' => '25',
@@ -79,7 +79,7 @@ function wave_config()
                 'Description' => 'Business Id',
             ],
             // a password field type allows for masked text input
-            'Password Field Name' => [
+            'Access Token' => [
                 'FriendlyName' => 'Access Token',
                 'Type' => 'password',
                 'Size' => '25',

@@ -1,6 +1,6 @@
 <?php
 
-namespace Subbe\WaveApp;
+namespace WHMCS\Module\Addon\Wave;
 
 class BusinessType
 {
