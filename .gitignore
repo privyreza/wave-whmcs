@@ -6,3 +6,4 @@ composer.lock
 coverage.xml
 /vendor
 /build
+*.zip

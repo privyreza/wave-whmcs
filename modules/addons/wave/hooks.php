@@ -28,11 +28,56 @@
  *
  * add_hook(string $hookPointName, int $priority, string|array|Closure $function)
  */
-add_hook('ClientEdit', 1, function(array $params) {
+use WHMCS\Module\Addon\Wave\WaveApp;
+use WHMCS\Module\Addon\Wave\Client\Controller;
+
+add_hook('ClientAdd', 1, function(array $params) {
+    // Create client in Wave
     try {
-        // Call the service's function, using the values provided by WHMCS in
-        // `$params`.
+        $c = new Controller();
+        $waveapp = new WaveApp(null, 'https://gql.waveapps.com/graphql/public', '75ycGuRotBichVoYG2RWps2lKIwyie', 'QnVzaW5lc3M6MmNlOWU5MzEtOTAyMi00NGYzLThlZTctOWIzNGM4MjY1ODU5');
+        $customer = [
+            "input" => [
+                "businessId" => "QnVzaW5lc3M6MmNlOWU5MzEtOTAyMi00NGYzLThlZTctOWIzNGM4MjY1ODU5",
+                "name" => "Genevieve Heidenreich",
+                "firstName" => "Genevieve",
+                "lastName" => "Heidenreich",
+                "displayId" => "Genevieve",
+                "email" => "genevieve.heidenreich@example.com",
+                "mobile" => "011 8795",
+                "phone" => "330 8738",
+                "fax" => "566 5965",
+                "tollFree" => "266 5698",
+                "website" => "http://www.hermiston.com/architecto-commodi-possimus-esse-non-necessitatibus",
+                "internalNotes" => "",
+                "currency" => "USD",
+                "address" => [
+                    "addressLine1" => "167 Iva Run",
+                    "addressLine2" => "Parker Mews, Monahanstad, 40778-7100",
+                    "city" => "West Tyrique",
+                    "postalCode" => "82271",
+                    "countryCode" => "EC",
+               ],
+               "shippingDetails" => [
+                    "name" => "Genevieve",
+                    "phone" => "011 8795",
+                    "instructions" => [
+                        "Delectus deleniti accusamus rerum voluptatem tempora.",
+                    ],
+                    "address" => [
+                        "addressLine1" => "167 Iva Run",
+                        "addressLine2" => "Parker Mews, Monahanstad, 40778-7100",
+                        "city" => "West Tyrique",
+                        "postalCode" => "82271",
+                        "countryCode" => "EC",
+                    ],
+                ],
+            ],
+        ];
+
+        $newCustomer = $waveapp->customerCreate($customer, "CustomerCreateInput");
+        
     } catch (Exception $e) {
-        // Consider logging or reporting the error.
+        throw new Exception($e->getMessage() . json_encode($params));
     }
 });

@@ -1,6 +1,6 @@
 <?php
 
-namespace WHMCS\Module\Addon\AddonModule\Client;
+namespace WHMCS\Module\Addon\Wave\Client;
 
 /**
  * Sample Client Area Dispatch Handler

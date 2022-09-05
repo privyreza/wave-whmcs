@@ -1,6 +1,6 @@
 <?php
 /**
- * WHMCS SDK Sample Addon Module
+ * WHMCS SDK Sample Wave Accounting Module
  *
  * An addon module allows you to add additional functionality to WHMCS. It
  * can provide both client and admin facing user interfaces, as well as
@@ -16,7 +16,7 @@
  * Within the module itself, all functions must be prefixed with the module
  * filename, followed by an underscore, and then the function name. For this
  * example file, the filename is "addonmodule" and therefore all functions
- * begin "addonmodule_".
+ * begin "wave_".
  *
  * For more information, please refer to the online documentation.
  *
@@ -34,8 +34,8 @@
  */
 
 use WHMCS\Database\Capsule;
-use WHMCS\Module\Addon\AddonModule\Admin\AdminDispatcher;
-use WHMCS\Module\Addon\AddonModule\Client\ClientDispatcher;
+use WHMCS\Module\Addon\Wave\Admin\AdminDispatcher;
+use WHMCS\Module\Addon\Wave\Client\ClientDispatcher;
 
 if (!defined("WHMCS")) {
     die("This file cannot be accessed directly");
@@ -56,16 +56,15 @@ if (!defined("WHMCS")) {
  *
  * @return array
  */
-function addonmodule_config()
+function wave_config()
 {
     return [
         // Display name for your module
-        'name' => 'Addon Module Sample',
+        'name' => 'Wave Accounting',
         // Description displayed within the admin interface
-        'description' => 'This module provides an example WHMCS Addon Module'
-            . ' which can be used as a basis for building a custom addon module.',
+        'description' => 'Wave Accounting plugin for whmcs to connect to your wave system, USD Account',
         // Module author name
-        'author' => 'Your name goes here',
+        'author' => 'privyreza@gmail.com',
         // Default language
         'language' => 'english',
         // Version number
@@ -73,54 +72,19 @@ function addonmodule_config()
         'fields' => [
             // a text field type allows for single line text input
             'Text Field Name' => [
-                'FriendlyName' => 'Text Field Name',
+                'FriendlyName' => 'Business Id',
                 'Type' => 'text',
                 'Size' => '25',
-                'Default' => 'Default value',
-                'Description' => 'Description goes here',
+                'Default' => '',
+                'Description' => 'Business Id',
             ],
             // a password field type allows for masked text input
             'Password Field Name' => [
-                'FriendlyName' => 'Password Field Name',
+                'FriendlyName' => 'Access Token',
                 'Type' => 'password',
                 'Size' => '25',
                 'Default' => '',
-                'Description' => 'Enter secret value here',
-            ],
-            // the yesno field type displays a single checkbox option
-            'Checkbox Field Name' => [
-                'FriendlyName' => 'Checkbox Field Name',
-                'Type' => 'yesno',
-                'Description' => 'Tick to enable',
-            ],
-            // the dropdown field type renders a select menu of options
-            'Dropdown Field Name' => [
-                'FriendlyName' => 'Dropdown Field Name',
-                'Type' => 'dropdown',
-                'Options' => [
-                    'option1' => 'Display Value 1',
-                    'option2' => 'Second Option',
-                    'option3' => 'Another Option',
-                ],
-                'Default' => 'option2',
-                'Description' => 'Choose one',
-            ],
-            // the radio field type displays a series of radio button options
-            'Radio Field Name' => [
-                'FriendlyName' => 'Radio Field Name',
-                'Type' => 'radio',
-                'Options' => 'First Option,Second Option,Third Option',
-                'Default' => 'Third Option',
-                'Description' => 'Choose your option!',
-            ],
-            // the textarea field type allows for multi-line text input
-            'Textarea Field Name' => [
-                'FriendlyName' => 'Textarea Field Name',
-                'Type' => 'textarea',
-                'Rows' => '3',
-                'Cols' => '60',
-                'Default' => 'A default value goes here...',
-                'Description' => 'Freeform multi-line text input field',
+                'Description' => 'Wave Access TOken',
             ],
         ]
     ];
@@ -139,13 +103,13 @@ function addonmodule_config()
  *
  * @return array Optional success/failure message
  */
-function addonmodule_activate()
+function wave_activate()
 {
     // Create custom tables and schema required by your module
     try {
         Capsule::schema()
             ->create(
-                'mod_addonexample',
+                'mod_wave',
                 function ($table) {
                     /** @var \Illuminate\Database\Schema\Blueprint $table */
                     $table->increments('id');
@@ -156,15 +120,13 @@ function addonmodule_activate()
         return [
             // Supported values here include: success, error or info
             'status' => 'success',
-            'description' => 'This is a demo module only. '
-                . 'In a real module you might report a success or instruct a '
-                    . 'user how to get started with it here.',
+            'description' => 'Wave Accounting activated',
         ];
     } catch (\Exception $e) {
         return [
             // Supported values here include: success, error or info
             'status' => "error",
-            'description' => 'Unable to create mod_addonexample: ' . $e->getMessage(),
+            'description' => 'Unable to create mod_wave: ' . $e->getMessage(),
         ];
     }
 }
@@ -182,24 +144,22 @@ function addonmodule_activate()
  *
  * @return array Optional success/failure message
  */
-function addonmodule_deactivate()
+function wave_deactivate()
 {
     // Undo any database and schema modifications made by your module here
     try {
         Capsule::schema()
-            ->dropIfExists('mod_addonexample');
+            ->dropIfExists('mod_wave');
 
         return [
-            // Supported values here include: success, error or info
             'status' => 'success',
-            'description' => 'This is a demo module only. '
-                . 'In a real module you might report a success here.',
+            'description' => 'Wave Accounting de-activated',
         ];
     } catch (\Exception $e) {
         return [
             // Supported values here include: success, error or info
             "status" => "error",
-            "description" => "Unable to drop mod_addonexample: {$e->getMessage()}",
+            "description" => "Unable to drop mod_wave: {$e->getMessage()}",
         ];
     }
 }
@@ -216,7 +176,7 @@ function addonmodule_deactivate()
  *
  * @return void
  */
-function addonmodule_upgrade($vars)
+function wave_upgrade($vars)
 {
     $currentlyInstalledVersion = $vars['version'];
 
@@ -251,7 +211,7 @@ function addonmodule_upgrade($vars)
  *
  * @return string
  */
-function addonmodule_output($vars)
+function wave_output($vars)
 {
     // Get common module parameters
     $modulelink = $vars['modulelink']; // eg. addonmodules.php?module=addonmodule
@@ -286,7 +246,7 @@ function addonmodule_output($vars)
  *
  * @return string
  */
-function addonmodule_sidebar($vars)
+function wave_sidebar($vars)
 {
     // Get common module parameters
     $modulelink = $vars['modulelink'];
@@ -317,7 +277,7 @@ function addonmodule_sidebar($vars)
  *
  * @return array
  */
-function addonmodule_clientarea($vars)
+function wave_clientarea($vars)
 {
     // Get common module parameters
     $modulelink = $vars['modulelink']; // eg. index.php?m=addonmodule

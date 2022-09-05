@@ -1,6 +1,6 @@
 <?php
 
-namespace Subbe\WaveApp\GraphQL;
+namespace WHMCS\Module\Addon\Wave\GraphQL;
 
 class QueryObject
 {

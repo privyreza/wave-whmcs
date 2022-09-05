@@ -1,11 +1,11 @@
 <?php
 
-namespace Subbe\WaveApp;
+namespace WHMCS\Module\Addon\Wave;
 
 use Exception;
 use GuzzleHttp\Client;
-use Subbe\WaveApp\GraphQL\Mutation;
-use Subbe\WaveApp\GraphQL\Query;
+use WHMCS\Module\Addon\Wave\GraphQL\Mutation;
+use WHMCS\Module\Addon\Wave\GraphQL\Query;
 
 /**
  * Class WaveApp.
@@ -81,7 +81,7 @@ class WaveApp
      */
     public function __construct(Client $client = null, $graphqlUrl = null, $token = null, $businessId = null)
     {
-        $this->token = ($token ? $token : config('waveapp.access_token'));
+        $this->token = $token;
         if (empty($this->token)) {
             throw new Exception("Please provide wave app's token", 400);
         }
